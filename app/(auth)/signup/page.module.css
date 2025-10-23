@@ -1,0 +1,133 @@
+.pageBackground {
+    min-height: 100vh;
+    background: url('/auth_bg.png') center/cover no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.authContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    background: linear-gradient(135deg, #f9f9f9 60%, #e3e8ee 100%);
+    padding: 40px 32px 32px 32px;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    max-width: 420px;
+    width: 100%;
+    margin: 40px auto;
+    border: 1px solid #e3e8ee;
+}
+
+
+.authLinks {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    font-size: 18px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    border-bottom: 1px solid #e3e8ee;
+}
+
+/* Show underline only on hovered child link */
+.authLinks div {
+    position: relative;
+    padding-bottom: 4px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.authLinks div:hover {
+    color: #0070f3;
+}
+
+.activeTab {
+    color: #0070f3 !important;
+    font-weight: 600;
+    border-bottom: 2px solid #0070f3;
+}
+
+.authLinks div::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #0070f3;
+    transition: width 0.2s;
+}
+
+.authLinks div:hover::after {
+    width: 100%;
+}
+
+.orDivider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #b0b7c3;
+    font-size: 15px;
+    margin: 16px 0 8px 0;
+}
+
+.orDivider::before,
+.orDivider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e3e8ee;
+    margin: 0 8px;
+}
+
+.googleIcon {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    margin-right: 8px;
+
+}
+
+.googleButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #444;
+    border: 2px solid #393a3a !important;
+
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    padding: 12px 28px;
+    font-size: 19px !important;
+    font-weight: 500;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    margin-top: 8px;
+}
+
+.googleButton:hover {
+    box-shadow: 0 4px 16px rgba(66, 133, 244, 0.15);
+    color: inherit !important;
+    background-color: #e5e7e9;
+}
+
+/* media query */
+@media screen and (max-width: 768px) {
+    .pageBackground {
+        padding: 0px;
+        min-height: 90vh;
+
+    }
+
+    .authContainer {
+        padding: 20px 16px;
+        width: 90%;
+    }
+
+}

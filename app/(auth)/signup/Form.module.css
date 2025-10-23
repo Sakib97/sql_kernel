@@ -1,0 +1,62 @@
+.formBox {
+    background: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+    width: 100%;
+}
+
+.formLabel {
+    font-size: 15px;
+    color: #3a3a3a;
+    margin-bottom: 2px;
+    margin-top: 8px;
+}
+
+.formInput {
+    font-size: 16px;
+    padding: 12px 14px;
+    border: 1px solid #e3e8ee;
+    border-radius: 8px;
+    background: #fff;
+    outline: none;
+    margin-bottom: 2px;
+    transition: border-color 0.2s;
+}
+.formInput:focus {
+    border-color: #4285f4;
+}
+
+.primaryButton {
+    background: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(66,133,244,0.08);
+    transition: background 0.2s;
+}
+.primaryButton:hover {
+    background: #3073d7;
+}
+
+.forgotPasswordBox {
+    text-align: center;
+    margin-top: 10px;
+}
+.forgotPassword {
+    color: #4285f4;
+    font-size: 15px;
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+    font-weight: 700;
+}
+.forgotPassword:hover {
+    text-decoration: underline;
+}
