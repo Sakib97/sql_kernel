@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './ModulesSection.module.css';
+import { MdTableView } from "react-icons/md";
 
 const modules = [
     {
@@ -7,7 +8,7 @@ const modules = [
         desc:
             'Learn the fundamental concepts of SQL and start writing your first queries.',
         icon: (
-            <i className={`${styles.iconStyle} fi fi-rr-database`}></i>
+            <i className={`${styles.iconStyle} fi fi-br-database-management`}></i>
 
         )
     },
@@ -16,7 +17,7 @@ const modules = [
         desc:
             'Discover how to use WHERE and ORDER BY clauses to refine your data.',
         icon: (
-            <i className={`${styles.iconStyle} fi fi-rr-filter`}></i>
+            <i className={`${styles.iconStyle} fi fi-br-filter`}></i>
         )
     },
     {
@@ -24,7 +25,7 @@ const modules = [
         desc:
             'Combine data from multiple tables and use nested queries for complex analysis.',
         icon: (
-            <i className={`${styles.iconStyle} fi fi-rs-chart-set-theory`}></i>
+            <i className={`${styles.iconStyle} fi fi-bs-link-horizontal`}></i>
         )
     },
     {

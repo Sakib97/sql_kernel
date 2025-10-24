@@ -15,15 +15,15 @@
     align-items: stretch;
     justify-content: flex-start;
     min-height: auto;
-    background: linear-gradient(135deg, #f9f9f9 60%, #e3e8ee 100%);
+    /* make background transparent */
+    background: linear-gradient(135deg, rgba(249, 249, 249, 0.98) 60%, rgba(227, 232, 238, 0.98) 100%);
     padding: 40px 32px 32px 32px;
     border-radius: 28px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     max-width: 420px;
     width: 100%;
     margin: 0 auto;
-    border: 1px solid #e3e8ee;
-    
+    border: 1px solid #e3e8ee;    
 }
 
 
