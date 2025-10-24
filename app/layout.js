@@ -36,6 +36,11 @@ const domine = Domine({
 export const metadata = {
   title: "SQL Kernel",
   description: "Learn SQL by doing SQL",
+  // icons: {
+  //   icon: "/logo1.png",
+  //   shortcut: "/logo1.png",
+  //   apple: "/logo1.png",
+  // },
 };
 
 export default function RootLayout({ children }) {
