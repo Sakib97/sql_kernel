@@ -132,5 +132,8 @@
         padding: 20px 16px;
         width: 90%;
     }
+    .googleButton {
+        font-size: 17px !important;
+    }
 
 }

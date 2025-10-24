@@ -71,7 +71,10 @@ const NavigationBar = () => {
                             className="d-inline-block align-top"
                             alt="SQL Kernel"
                         />
-                        {' SQL Kernel'}
+                        {/* lower the name along y axis */}
+                        <div style={{ display: 'inline-block',transform: 'translateY(4px)', marginLeft: '8px', fontSize: '22px', fontWeight: '600' }}>
+                            {' SQL Kernel'}
+                        </div>
                     </Navbar.Brand>
 
                     <Navbar.Toggle onClick={handleShow} aria-controls="offcanvasNavbar-expand-lg" />
