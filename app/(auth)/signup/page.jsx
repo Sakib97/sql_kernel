@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import LoginForm from './LoginForm';
 import RegForm from './RegForm';
 
-export default function AuthPage() {
+function AuthPageContent() {
     const [authState, setAuthState] = useState('login'); // 'login' or 'signup'
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
@@ -122,5 +122,17 @@ export default function AuthPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function AuthPage() {
+    return (
+        <Suspense fallback={<div className={styles.pageBackground}>
+            <div className={styles.authContainer}>
+                Loading...
+            </div>
+        </div>}>
+            <AuthPageContent />
+        </Suspense>
     );
 }
