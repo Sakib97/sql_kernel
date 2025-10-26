@@ -27,6 +27,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ant-layout,
+.ant-layout * {
+  font-family: var(--font-domine), serif !important;
+}
+
+
+
 * {
   box-sizing: border-box;
   padding: 0;

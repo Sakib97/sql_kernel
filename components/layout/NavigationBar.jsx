@@ -104,6 +104,7 @@ const NavigationBar = () => {
                                 <Nav.Link as={Link} href="/" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/' ? ' ' + styles.active : ''}`}>Home</Nav.Link>
                                 {/* <Nav.Link as={Link} href="/publications" onClick={handleClose}>Signin</Nav.Link> */}
                                 <Nav.Link as={Link} href="/signup" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/signup' ? ' ' + styles.active : ''}`}>Signup</Nav.Link>
+                                <Nav.Link as={Link} href="/dashboard/profile" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/dashboard/profile' ? ' ' + styles.active : ''}`}>Profile</Nav.Link>
                                 {/* <Nav.Link as={Link} href="/projects" onClick={handleClose}>Projects</Nav.Link> */}
                             </Nav>
                         </Offcanvas.Body>

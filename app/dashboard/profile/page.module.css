@@ -1,0 +1,165 @@
+/* Container - centers the profile card */
+.container {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 16px;
+  font-family: var(--font-domine), serif;
+  flex-wrap: nowrap;
+}
+
+/* Profile Card - clean white card with shadow */
+.profileCard {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 48px 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Avatar - gradient circle */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  margin-bottom: 8px;
+}
+
+/* Name - bold centered heading */
+.name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Email - subtle gray text */
+.email {
+  font-size: 1.05rem;
+  color: #6b7280;
+  margin: 0;
+  text-align: center;
+}
+
+/* Progress Section - full width container */
+.progressSection {
+  width: 100%;
+  margin-top: 16px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Progress Header - title and percentage on same line */
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progressTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.progressPercent {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #667eea;
+}
+
+/* Progress Bar - animated fill */
+.progressBar {
+  width: 100%;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  width: 65%; /* Matches the 65% progress */
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  transition: width 0.6s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+/* Progress Info - lesson count */
+.progressInfo {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.progressLabel {
+  font-size: 0.95rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .profileCard {
+    padding: 36px 28px;
+    max-width: 100%;
+  }
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .name {
+    font-size: 1.75rem;
+  }
+
+  .email {
+    font-size: 1rem;
+  }
+
+  .progressTitle {
+    font-size: 1rem;
+  }
+
+  .progressPercent {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .profileCard {
+    padding: 28px 20px;
+  }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+  }
+
+  .name {
+    font-size: 1.5rem;
+  }
+
+  .progressSection {
+    margin-top: 12px;
+    padding-top: 20px;
+  }
+}
