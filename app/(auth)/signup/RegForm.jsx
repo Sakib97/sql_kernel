@@ -16,7 +16,7 @@ export default function RegForm() {
   const [error, setError] = useState(null)
   const router = useRouter();
 
-  const redirectTo = `${window.location.origin}/signup/confirm`
+  const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/signup/confirm`
 
   const formik = useFormik({
     initialValues: {
@@ -44,8 +44,16 @@ export default function RegForm() {
         setError(error.message)
         setLoading(false)
       } else if (data?.user?.identities?.length === 0) {
-        // User already exists - Supabase returns 200 but with empty identities array
-        setError('An account with this email already exists. Please log in instead.')
+        // User already exists
+        // Check if user is confirmed or not
+        if (data?.user && !data?.user?.confirmed_at) {
+          // User exists but email not confirmed
+          // Supabase will send a new email only if rate limit allows
+          setMessage('If your previous confirmation link has expired, a new email has been sent. Otherwise, please check your inbox for the existing email.')
+        } else {
+          // User exists and is confirmed
+          setError('An account with this email already exists. Please log in instead.')
+        }
         setLoading(false)
       } else {
         setMessage('Registration successful! Please check your email to confirm your account.')
