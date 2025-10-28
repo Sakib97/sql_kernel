@@ -15,28 +15,28 @@ const NavigationBar = () => {
     // Get current pathname
     const pathname = usePathname();
     const [mounted, setMounted] = useState(false);
-    
+
     // Auth state
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    
+
     useEffect(() => {
         setMounted(true);
-        
+
         // Get initial session
         const getSession = async () => {
             const { data: { session } } = await supabase.auth.getSession();
             setUser(session?.user ?? null);
             setLoading(false);
         };
-        
+
         getSession();
-        
+
         // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user ?? null);
         });
-        
+
         return () => subscription.unsubscribe();
     }, []);
 
@@ -95,7 +95,7 @@ const NavigationBar = () => {
                             alt="SQL Kernel"
                         />
                         {/* lower the name along y axis */}
-                        <div style={{ display: 'inline-block',transform: 'translateY(4px)', marginLeft: '8px', fontSize: '22px', fontWeight: '600' }}>
+                        <div style={{ display: 'inline-block', transform: 'translateY(4px)', marginLeft: '8px', fontSize: '22px', fontWeight: '600' }}>
                             {' SQL Kernel'}
                         </div>
                     </Navbar.Brand>
@@ -125,19 +125,25 @@ const NavigationBar = () => {
                                 "
                             >
                                 <Nav.Link as={Link} href="/" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/' ? ' ' + styles.active : ''}`}>Home</Nav.Link>
-                                
+
                                 {/* Show Signup only when user is NOT logged in */}
                                 {!loading && !user && (
-                                    <Nav.Link as={Link} href="/signup" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/signup' ? ' ' + styles.active : ''}`}>
+                                    <Nav.Link as={Link}
+                                        href="/signup"
+                                        onClick={handleClose}
+                                        className={`${styles.navLink}${mounted && pathname === '/signup' ? ' ' + styles.active : ''}`}>
                                         Signup
                                     </Nav.Link>
                                 )}
-                                
-                                {/* Show Profile with user email when user IS logged in */}
+
+                                {/* Show Profile with masked email (before @) when user IS logged in */}
                                 {!loading && user && (
-                                    <Nav.Link as={Link} href="/dashboard/profile" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/dashboard/profile' ? ' ' + styles.active : ''}`}>
+                                    <Nav.Link as={Link}
+                                        href="/dashboard/profile"
+                                        onClick={handleClose}
+                                        className={`${styles.navLink}${mounted && pathname === '/dashboard/profile' ? ' ' + styles.active : ''}`}>
                                         <i className="fi fi-rr-user" style={{ marginRight: '6px' }}></i>
-                                        {user.email}
+                                        {user?.email?.split('@')[0] ?? 'Profile'}
                                     </Nav.Link>
                                 )}
                             </Nav>
