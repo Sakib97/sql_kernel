@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './page.module.css'
+import LogoutButton from '@/components/ui/LogoutButton'
 
 export default function Page() {
   return (
@@ -23,6 +24,10 @@ export default function Page() {
           <div className={styles.progressInfo}>
             <span className={styles.progressLabel}>13 of 20 lessons completed</span>
           </div>
+        </div>
+        <div className={styles.actions}>
+          {/* <button className={styles.editProfileButton}>Edit Profile</button> */}
+          <LogoutButton />
         </div>
       </div>
     </div>

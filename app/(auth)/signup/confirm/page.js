@@ -28,7 +28,15 @@ export default function Page() {
             if (error) {
                 console.error('Supabase error:', error, errorCode);
                 const errorToken = crypto.randomUUID()
-                const redirectError = errorCode === 'otp_expired' ? 'link_expired' : 'confirmation_failed'
+                let redirectError = 'confirmation_failed'
+                
+                // Determine the appropriate error type
+                if (errorCode === 'otp_expired') {
+                    redirectError = 'link_expired'
+                } else if (errorCode === 'otp_disabled' || error === 'access_denied') {
+                    redirectError = 'invalid_link'
+                }
+                
                 sessionStorage.setItem('confirmation_error', JSON.stringify({ token: errorToken, type: redirectError }))
                 router.push(`/signup?error=${errorToken}`)
                 return
@@ -40,6 +48,20 @@ export default function Page() {
             if (!accessToken) {
                 const errorToken = crypto.randomUUID()
                 sessionStorage.setItem('confirmation_error', JSON.stringify({ token: errorToken, type: 'invalid_link' }))
+                router.push(`/signup?error=${errorToken}`)
+                return
+            }
+
+            // Verify the session is valid
+            const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+            
+            if (sessionError || !sessionData.session) {
+                // Session is invalid or corrupted - check if it's an expiry issue
+                console.error('Session validation error:', sessionError);
+                const errorToken = crypto.randomUUID()
+                // If there was an error in hash but we reached here, it's likely corrupted not expired
+                const errorType = sessionError?.message?.includes('expired') ? 'link_expired' : 'invalid_link'
+                sessionStorage.setItem('confirmation_error', JSON.stringify({ token: errorToken, type: errorType }))
                 router.push(`/signup?error=${errorToken}`)
                 return
             }

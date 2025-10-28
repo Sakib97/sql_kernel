@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import styles from './Form.module.css';
 import { useFormik } from 'formik';
 import { RegistrationSchema } from '../../../schemas/RegistrationSchema';
-import { supabase } from '@/lib/supabaseClient';
+import { createClient } from '@/lib/supabaseBrowser';
 import { useRouter } from 'next/navigation';
 
 
 export default function RegForm() {
+  const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -41,19 +42,17 @@ export default function RegForm() {
       })
       
       if (error) {
-        setError(error.message)
+        // Handle rate limit error specifically
+        if (error.code?.includes('over_email_send_rate_limit') || error.message?.includes('you can only request this after')) {
+          setError('A confirmation email was already sent. Please check your inbox.')
+        } else {
+          setError(error.message)
+        }
         setLoading(false)
       } else if (data?.user?.identities?.length === 0) {
-        // User already exists
-        // Check if user is confirmed or not
-        if (data?.user && !data?.user?.confirmed_at) {
-          // User exists but email not confirmed
-          // Supabase will send a new email only if rate limit allows
-          setMessage('If your previous confirmation link has expired, a new email has been sent. Otherwise, please check your inbox for the existing email.')
-        } else {
-          // User exists and is confirmed
+        // User already exists - identities array is empty
+          // User exists and is already confirmed (no confirmation_sent_at means no new email sent)
           setError('An account with this email already exists. Please log in instead.')
-        }
         setLoading(false)
       } else {
         setMessage('Registration successful! Please check your email to confirm your account.')
@@ -143,7 +142,7 @@ export default function RegForm() {
         </button>
 
         {message && <div className={styles.successMessage}>{message}</div>}
-        {error && <div className={styles.errorMessage}>{error}</div>}
+        {error && <div className={styles.specialErrorMessage}>{error}</div>}
 
     </form>
   );

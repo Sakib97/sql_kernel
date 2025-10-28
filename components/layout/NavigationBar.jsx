@@ -8,14 +8,37 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { createClient } from '@/lib/supabaseBrowser';
 
 const NavigationBar = () => {
-        // Get current pathname
-        const pathname = usePathname();
-        const [mounted, setMounted] = useState(false);
-        useEffect(() => {
-            setMounted(true);
-        }, []);
+    const supabase = createClient();
+    // Get current pathname
+    const pathname = usePathname();
+    const [mounted, setMounted] = useState(false);
+    
+    // Auth state
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        setMounted(true);
+        
+        // Get initial session
+        const getSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setUser(session?.user ?? null);
+            setLoading(false);
+        };
+        
+        getSession();
+        
+        // Listen for auth changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+        
+        return () => subscription.unsubscribe();
+    }, []);
 
     // Offcanvas state
     const [show, setShow] = useState(false);
@@ -102,10 +125,21 @@ const NavigationBar = () => {
                                 "
                             >
                                 <Nav.Link as={Link} href="/" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/' ? ' ' + styles.active : ''}`}>Home</Nav.Link>
-                                {/* <Nav.Link as={Link} href="/publications" onClick={handleClose}>Signin</Nav.Link> */}
-                                <Nav.Link as={Link} href="/signup" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/signup' ? ' ' + styles.active : ''}`}>Signup</Nav.Link>
-                                <Nav.Link as={Link} href="/dashboard/profile" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/dashboard/profile' ? ' ' + styles.active : ''}`}>Profile</Nav.Link>
-                                {/* <Nav.Link as={Link} href="/projects" onClick={handleClose}>Projects</Nav.Link> */}
+                                
+                                {/* Show Signup only when user is NOT logged in */}
+                                {!loading && !user && (
+                                    <Nav.Link as={Link} href="/signup" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/signup' ? ' ' + styles.active : ''}`}>
+                                        Signup
+                                    </Nav.Link>
+                                )}
+                                
+                                {/* Show Profile with user email when user IS logged in */}
+                                {!loading && user && (
+                                    <Nav.Link as={Link} href="/dashboard/profile" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/dashboard/profile' ? ' ' + styles.active : ''}`}>
+                                        <i className="fi fi-rr-user" style={{ marginRight: '6px' }}></i>
+                                        {user.email}
+                                    </Nav.Link>
+                                )}
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
