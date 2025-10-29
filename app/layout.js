@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import '@flaticon/flaticon-uicons/css/all/all.css';
 import "./globals.css";
 import NavigationBar from "@/components/layout/NavigationBar";
+import RouteProgressBar from "@/components/ui/RouteProgressBar";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -52,6 +53,9 @@ export default function RootLayout({ children }) {
       {/* <body className={`${oldStandard.variable}`}> */}
       <body className={`${domine.variable}`}>
         <NavigationBar />
+
+        {/* Route change progress bar shown just below the fixed navbar */}
+        <RouteProgressBar height={3} color="#0d6efd" shadow />
 
         <main className="main-content">
           {children}

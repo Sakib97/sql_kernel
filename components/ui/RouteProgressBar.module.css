@@ -1,0 +1,23 @@
+.wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1049; /* Above .navbar (1040 in Bootstrap), below modals (1050) */
+  pointer-events: none;
+}
+
+.bar {
+  position: relative;
+  width: 0%;
+  transition: width 150ms ease-out;
+}
+
+.shadow::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0));
+}

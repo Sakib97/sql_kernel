@@ -62,6 +62,8 @@ const NavigationBar = () => {
                 } else { // if scroll up show the navbar
                     setShowNavbar(true);
                 }
+                // console.log("lastScrollY on Nav", lastScrollY);
+
                 // Update the last scroll position to the current one.
                 setLastScrollY(window.scrollY);
             }
