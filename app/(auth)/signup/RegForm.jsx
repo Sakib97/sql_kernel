@@ -17,7 +17,13 @@ export default function RegForm() {
   const [error, setError] = useState(null)
   const router = useRouter();
 
-  const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/signup/confirm`
+  // Use window.location.origin when available (client-side), fallback to env var
+  const getRedirectUrl = () => {
+    if (typeof window !== 'undefined') {
+      return `${window.location.origin}/signup/confirm`
+    }
+    return `${process.env.NEXT_PUBLIC_APP_URL}/signup/confirm`
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +43,7 @@ export default function RegForm() {
         email: values.email,
         password: values.password,
         options: {
-          emailRedirectTo: redirectTo
+          emailRedirectTo: getRedirectUrl()
         }
       })
       

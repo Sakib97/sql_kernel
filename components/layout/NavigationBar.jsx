@@ -23,14 +23,14 @@ const NavigationBar = () => {
     useEffect(() => {
         setMounted(true);
 
-        // Get initial session
-        const getSession = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            setUser(session?.user ?? null);
+        // Get initial user - use getUser() instead of getSession() for accurate auth state
+        const checkUser = async () => {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            setUser(error ? null : user);
             setLoading(false);
         };
 
-        getSession();
+        checkUser();
 
         // Listen for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

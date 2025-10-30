@@ -29,8 +29,22 @@ export async function middleware(request) {
     }
   )
 
-  // Refreshing the auth token
-  await supabase.auth.getUser()
+  // Refreshing the auth token and getting user
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const isAuthPage = request.nextUrl.pathname.startsWith('/signup') || 
+                     request.nextUrl.pathname.startsWith('/login')
+  const isProtectedPage = request.nextUrl.pathname.startsWith('/dashboard')
+
+  // Redirect authenticated users away from auth pages
+  if (user && isAuthPage) {
+    return NextResponse.redirect(new URL('/dashboard/profile', request.url))
+  }
+
+  // Redirect unauthenticated users away from protected pages
+  if (!user && isProtectedPage) {
+    return NextResponse.redirect(new URL('/signup', request.url))
+  }
 
   return supabaseResponse
 }

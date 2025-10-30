@@ -52,15 +52,15 @@ export default function Page() {
                 return
             }
 
-            // Verify the session is valid
-            const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+            // Verify the session is valid using getUser() for fresh auth state
+            const { data: { user }, error: userError } = await supabase.auth.getUser()
             
-            if (sessionError || !sessionData.session) {
+            if (userError || !user) {
                 // Session is invalid or corrupted - check if it's an expiry issue
-                console.error('Session validation error:', sessionError);
+                console.error('User validation error:', userError);
                 const errorToken = crypto.randomUUID()
                 // If there was an error in hash but we reached here, it's likely corrupted not expired
-                const errorType = sessionError?.message?.includes('expired') ? 'link_expired' : 'invalid_link'
+                const errorType = userError?.message?.includes('expired') ? 'link_expired' : 'invalid_link'
                 sessionStorage.setItem('confirmation_error', JSON.stringify({ token: errorToken, type: errorType }))
                 router.push(`/signup?error=${errorToken}`)
                 return
