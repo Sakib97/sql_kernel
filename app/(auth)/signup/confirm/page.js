@@ -10,7 +10,8 @@ export default function Page() {
 
     useEffect(() => {
         const confirmSignUp = async () => {
-            console.log("I am inside confirm");
+            // console.log("I am inside confirm");
+            const { data: { user }, error: userError } = await supabase.auth.getUser()
 
             // Verify the session is valid using getUser() for fresh auth state
             // if (user) {
@@ -78,8 +79,8 @@ export default function Page() {
                 return
             }
 
-            
-            const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+            // const { data: { user }, error: userError } = await supabase.auth.getUser()
             if (userError || !user) {
                 // Session is invalid or corrupted - check if it's an expiry issue
                 console.error('User validation error:', userError);
