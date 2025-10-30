@@ -3,6 +3,7 @@ import styles from './page.module.css'
 import LogoutButton from '@/components/ui/LogoutButton'
 import { createClient } from '@/lib/supabaseServer'
 import { redirect } from 'next/navigation'
+import HashErrorHandler from './HashErrorHandler'
 
 export default async function Page() {
   const supabase = await createClient()
@@ -28,6 +29,7 @@ export default async function Page() {
   
   return (
     <div className={styles.container}>
+      <HashErrorHandler />
       <div className={styles.profileCard}>
         <div className={styles.avatar}>
           {avatarUrl && (

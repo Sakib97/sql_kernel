@@ -19,6 +19,8 @@ function AuthPageContent() {
             // Verify the token exists in sessionStorage
             const storedToken = sessionStorage.getItem('email_confirmed')
             if (storedToken === confirmToken) {
+                console.log("success");
+                
                 setSuccessMessage('Email confirmed successfully! You can now log in.')
                 // Clear the token so it can't be reused
                 sessionStorage.removeItem('email_confirmed')

@@ -5,8 +5,8 @@ export default async function ProtectedLayout({ children }) {
   const supabase = await createClient();
 
   // Check if user is authenticated
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
     redirect('/signup');
   }
 
