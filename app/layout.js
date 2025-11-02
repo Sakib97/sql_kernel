@@ -37,6 +37,9 @@ const domine = Domine({
 export const metadata = {
   title: "SQL Kernel",
   description: "Learn SQL by doing SQL",
+  keywords: ["SQL", "Database", "Programming"],
+  // favicon.ico should be the title icon
+  // favicon: "/app/favicon.ico",
   // icons: {
   //   icon: "/logo1.png",
   //   shortcut: "/logo1.png",

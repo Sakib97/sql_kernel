@@ -81,7 +81,7 @@ export default function layout({ children }) {
                             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                             onClick={() => setCollapsed(!collapsed)}
                             style={{
-                                fontSize: '20px',
+                                fontSize: '23px',
                                 width: 64,
                                 height: 64,
                             }}

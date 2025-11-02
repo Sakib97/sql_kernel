@@ -1,0 +1,96 @@
+/* Sider tweaks */
+.sider {
+	/* padding: 8px 6px; */
+}
+
+.siderHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 10px 12px;
+	margin: 6px 8px 10px;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.06);
+	color: #fff;
+}
+
+.siderTitle {
+	font-size: 18px;
+	/* font-weight: 600; */
+	letter-spacing: 0.2px;
+}
+
+.siderCount {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 28px;
+	height: 28px;
+	padding: 0 6px;
+	border-radius: 999px;
+	font-size: 18px;
+	/* font-weight: 600; */
+	color: #fff;
+	background: rgba(255, 255, 255, 0.16);
+}
+
+.loadingWrap {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 8px 16px;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+.loadingText {
+	font-size: 13px;
+}
+
+/* Menu spacing and item cosmetics */
+.menu {
+	padding: 4px 4px 12px;
+}
+
+.menu :global(.ant-menu-item) {
+	margin: 8px 8px; /* creates visible gaps between rows */
+	padding: 10px 12px; /* inner padding */
+	height: auto; /* allow multi-line */
+	line-height: 1.3;
+	border-radius: 10px; /* rounded corners */
+	white-space: normal; /* wrap text */
+}
+
+.menu :global(.ant-menu-title-content) {
+	white-space: normal;
+}
+
+.menu :global(.ant-menu-item:hover) {
+	/* background: rgba(255, 255, 255, 0.08) !important; */
+}
+
+.menu :global(.ant-menu-item-selected) {
+	/* background: rgba(255, 255, 255, 0.12) !important; */
+	background: rgba(114, 110, 110, 0.77) !important;
+}
+
+/* Custom label layout */
+.menuItemLabel {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.moduleIndex {
+	font-weight: 500;
+	font-size: 17px;
+	opacity: 0.9;
+}
+
+.moduleTitle {
+	font-size: 15px;
+	line-height: 1.4;
+	white-space: normal;
+	word-break: break-word;
+}
+

@@ -19,6 +19,9 @@ const NavigationBar = () => {
     // Auth state
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    
+    // Track clicked link for immediate visual feedback
+    const [clickedPath, setClickedPath] = useState(null);
 
     useEffect(() => {
         setMounted(true);
@@ -39,6 +42,19 @@ const NavigationBar = () => {
 
         return () => subscription.unsubscribe();
     }, []);
+
+    // Reset clickedPath when pathname changes (navigation completed)
+    useEffect(() => {
+        if (clickedPath && pathname === clickedPath) {
+            setClickedPath(null);
+        }
+    }, [pathname, clickedPath]);
+
+    // Handle link clicks for immediate visual feedback
+    const handleNavClick = (path) => {
+        setClickedPath(path);
+        handleClose();
+    };
 
     // Offcanvas state
     const [show, setShow] = useState(false);
@@ -126,14 +142,23 @@ const NavigationBar = () => {
                                     gap-1
                                 "
                             >
-                                <Nav.Link as={Link} href="/" onClick={handleClose} className={`${styles.navLink}${mounted && pathname === '/' ? ' ' + styles.active : ''}`}>Home</Nav.Link>
+                                <Nav.Link as={Link} href="/"
+                                    onClick={() => handleNavClick('/')}
+                                    className={`${styles.navLink}${mounted && (pathname === '/' || clickedPath === '/') ? ' ' + styles.active : ''}`}>
+                                    Home
+                                </Nav.Link>
+                                <Nav.Link as={Link} href="/learn/modules"
+                                    onClick={() => handleNavClick('/learn/modules')}
+                                    className={`${styles.navLink}${mounted && (pathname === '/learn/modules' || clickedPath === '/learn/modules') ? ' ' + styles.active : ''}`}>
+                                    Modules
+                                </Nav.Link>
 
                                 {/* Show Signup only when user is NOT logged in */}
                                 {!loading && !user && (
                                     <Nav.Link as={Link}
                                         href="/signup"
-                                        onClick={handleClose}
-                                        className={`${styles.navLink}${mounted && pathname === '/signup' ? ' ' + styles.active : ''}`}>
+                                        onClick={() => handleNavClick('/signup')}
+                                        className={`${styles.navLink}${mounted && (pathname === '/signup' || clickedPath === '/signup') ? ' ' + styles.active : ''}`}>
                                         Signup
                                     </Nav.Link>
                                 )}
@@ -142,8 +167,8 @@ const NavigationBar = () => {
                                 {!loading && user && (
                                     <Nav.Link as={Link}
                                         href="/dashboard/profile"
-                                        onClick={handleClose}
-                                        className={`${styles.navLink}${mounted && pathname === '/dashboard/profile' ? ' ' + styles.active : ''}`}>
+                                        onClick={() => handleNavClick('/dashboard/profile')}
+                                        className={`${styles.navLink}${mounted && (pathname === '/dashboard/profile' || clickedPath === '/dashboard/profile') ? ' ' + styles.active : ''}`}>
                                         <i className="fi fi-rr-user" style={{ marginRight: '6px' }}></i>
                                         {user?.email?.split('@')[0] ?? 'Profile'}
                                     </Nav.Link>
