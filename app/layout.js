@@ -1,10 +1,14 @@
-import { Geist, Geist_Mono, Bentham, Old_Standard_TT, Domine } from "next/font/google";
+import { Geist, Geist_Mono, Bentham, Old_Standard_TT, Domine,
+  Tiro_Bangla
+ } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@flaticon/flaticon-uicons/css/all/all.css';
 import "./globals.css";
 import NavigationBar from "@/components/layout/NavigationBar";
 import RouteProgressBar from "@/components/ui/RouteProgressBar";
+import GoToTop from "@/components/ui/GoToTop";
 import Providers from "./providers";
+import LanguageFontManager from "@/components/ui/LanguageFontManager";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -34,6 +38,12 @@ const domine = Domine({
   weight: "500",
 });
 
+const tiroBangla = Tiro_Bangla({
+  variable: "--font-tiro-bangla",
+  subsets: ["latin", "bengali"],
+  weight: "400",
+});
+
 
 export const metadata = {
   title: "SQL Kernel",
@@ -55,18 +65,22 @@ export default function RootLayout({ children }) {
       {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
       {/* <body className={`${bentham.variable}`}> */}
       {/* <body className={`${oldStandard.variable}`}> */}
-      <body className={`${domine.variable}`}>
-        <NavigationBar />
+      <body className={`${domine.variable} ${tiroBangla.variable}`}>
+        <Providers>
+          {/* Apply the correct font-family based on current language */}
+          <LanguageFontManager />
+          <NavigationBar />
 
-        {/* Route change progress bar shown just below the fixed navbar */}
-        <RouteProgressBar height={3} color="#0d6efd" shadow />
+          {/* Route change progress bar shown just below the fixed navbar */}
+          <RouteProgressBar height={3} color="#0d6efd" shadow />
 
-        <main className="main-content">
-          <Providers>
+          <main className="main-content">
             {children}
-          </Providers>
-          {/* {children} */}
-        </main>
+          </main>
+
+          {/* Global "Go to Top" floating button */}
+          <GoToTop />
+        </Providers>
 
 
       </body>

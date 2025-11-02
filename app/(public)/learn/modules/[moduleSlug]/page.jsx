@@ -4,9 +4,11 @@ import LoadingIcon from '@/components/ui/LoadingIcon'
 import { createClient } from '@/lib/supabaseBrowser'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
+import { useLanguage } from '@/contexts/LanguageProvider'
 
 
 export default function ModulePage() {
+    const { language } = useLanguage();
     const supabase = createClient();
     const params = useParams();
     const { moduleSlug } = params;
@@ -44,11 +46,8 @@ export default function ModulePage() {
 
     return (
         <div>
-            <h1>{module.title_en}</h1>
-            <h2>{module.title_bn}</h2>
-            <p>{module.short_desc_en}</p>
-            <p>{module.short_desc_bn}</p>
-            <p>Module ID: {module.id}</p>
+            <h1>{language === 'en' ? module.title_en : module.title_bn}</h1>
+            <p>{language === 'en' ? module.short_desc_en : module.short_desc_bn}</p>
             {/* Render lessons or details */}
         </div>
     )

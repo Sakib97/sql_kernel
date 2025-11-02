@@ -9,6 +9,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { createClient } from '@/lib/supabaseBrowser';
+import LanguageToggle from '../ui/LanguageToggle';
+
 
 const NavigationBar = () => {
     const supabase = createClient();
@@ -19,7 +21,7 @@ const NavigationBar = () => {
     // Auth state
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    
+
     // Track clicked link for immediate visual feedback
     const [clickedPath, setClickedPath] = useState(null);
 
@@ -173,6 +175,9 @@ const NavigationBar = () => {
                                         {user?.email?.split('@')[0] ?? 'Profile'}
                                     </Nav.Link>
                                 )}
+                                <Navbar.Text onClick={handleClose}>
+                                    <LanguageToggle />
+                                </Navbar.Text>
                             </Nav>
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
