@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './ModulesSection.module.css';
 import { MdTableView } from "react-icons/md";
+import Link from 'next/link';
 
 const modules = [
     {
@@ -67,13 +68,13 @@ export default function ModulesSection() {
                     </article>
                 ))}
                     {/* See More card aligned with the grid */}
-                    <a href="/modules" className={styles.seeMoreCard} aria-label="See more modules">
+                    <Link href="/learn/modules/sql-basics" className={styles.seeMoreCard} aria-label="See more modules">
                         <span>See More</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <path d="M5 12h14" stroke="#0284c7" strokeWidth="2" strokeLinecap="round"/>
                             <path d="M13 6l6 6-6 6" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                    </a>
+                    </Link>
             </div>
         </section>
     )

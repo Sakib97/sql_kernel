@@ -149,7 +149,7 @@ const NavigationBar = () => {
                                 </Nav.Link>
                                 <Nav.Link as={Link} href="/learn/modules"
                                     onClick={() => handleNavClick('/learn/modules')}
-                                    className={`${styles.navLink}${mounted && (pathname === '/learn/modules' || clickedPath === '/learn/modules') ? ' ' + styles.active : ''}`}>
+                                    className={`${styles.navLink}${mounted && (pathname?.startsWith('/learn/modules') || clickedPath === '/learn/modules') ? ' ' + styles.active : ''}`}>
                                     Modules
                                 </Nav.Link>
 

@@ -4,6 +4,7 @@ import '@flaticon/flaticon-uicons/css/all/all.css';
 import "./globals.css";
 import NavigationBar from "@/components/layout/NavigationBar";
 import RouteProgressBar from "@/components/ui/RouteProgressBar";
+import Providers from "./providers";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -61,7 +62,10 @@ export default function RootLayout({ children }) {
         <RouteProgressBar height={3} color="#0d6efd" shadow />
 
         <main className="main-content">
-          {children}
+          <Providers>
+            {children}
+          </Providers>
+          {/* {children} */}
         </main>
 
 
