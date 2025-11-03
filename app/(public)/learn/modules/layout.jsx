@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
@@ -45,6 +45,10 @@ export default function ModuleLayout({ children }) {
     const supabase = createClient();
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(false);
+    // touch tracking for swipe gestures
+    const touchStartXRef = useRef(0);
+    const touchStartYRef = useRef(0);
+    const handledRef = useRef(false);
 
     // const [modules, setModules] = useState([]);
     // const [loading, setLoading] = useState(true);
@@ -110,6 +114,60 @@ export default function ModuleLayout({ children }) {
         )
     );
 
+    // Handlers: swipe left on Sider to hide; swipe right from edge on Content to show
+    const onSiderTouchStart = (e) => {
+        if (!isMobile) return;
+        const t = e.touches?.[0];
+        if (!t) return;
+        touchStartXRef.current = t.clientX;
+        touchStartYRef.current = t.clientY;
+        handledRef.current = false;
+    };
+
+    const onSiderTouchMove = (e) => {
+        if (!isMobile || handledRef.current) return;
+        const t = e.touches?.[0];
+        if (!t) return;
+        const dx = t.clientX - touchStartXRef.current; // negative when moving left
+        const dy = t.clientY - touchStartYRef.current;
+        // Ensure primarily horizontal swipe left
+        if (Math.abs(dx) > Math.max(40, Math.abs(dy) * 1.5) && dx < -50) {
+            if (!collapsed) setCollapsed(true);
+            handledRef.current = true;
+        }
+    };
+
+    const onSiderTouchEnd = () => {
+        handledRef.current = false;
+    };
+
+    const onContentTouchStart = (e) => {
+        if (!isMobile) return;
+        const t = e.touches?.[0];
+        if (!t) return;
+        touchStartXRef.current = t.clientX;
+        touchStartYRef.current = t.clientY;
+        handledRef.current = false;
+    };
+
+    const onContentTouchMove = (e) => {
+        if (!isMobile || handledRef.current) return;
+        const t = e.touches?.[0];
+        if (!t) return;
+        const dx = t.clientX - touchStartXRef.current; // positive when moving right
+        const dy = t.clientY - touchStartYRef.current;
+        // Only consider a swipe-right that started near left edge when sidebar is collapsed
+        const startedAtEdge = touchStartXRef.current <= 24; // 24px edge zone
+        if (collapsed && startedAtEdge && Math.abs(dx) > Math.max(40, Math.abs(dy) * 1.5) && dx > 50) {
+            setCollapsed(false);
+            handledRef.current = true;
+        }
+    };
+
+    const onContentTouchEnd = () => {
+        handledRef.current = false;
+    };
+
     return (
         <div>
             <Layout hasSider>
@@ -123,6 +181,9 @@ export default function ModuleLayout({ children }) {
                     collapsedWidth={0}
                     onBreakpoint={(broken) => setCollapsed(broken)}
                     width={260}
+                    onTouchStart={onSiderTouchStart}
+                    onTouchMove={onSiderTouchMove}
+                    onTouchEnd={onSiderTouchEnd}
                 >
                     <Link href="/learn/modules">
                         <div className={styles.siderHeader}>
@@ -164,7 +225,12 @@ export default function ModuleLayout({ children }) {
                             }}
                         />
                     </Header>
-                    <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                    <Content
+                        style={{ margin: '24px 16px 0', overflow: 'initial' }}
+                        onTouchStart={onContentTouchStart}
+                        onTouchMove={onContentTouchMove}
+                        onTouchEnd={onContentTouchEnd}
+                    >
                         <div
                             style={{
                                 padding: 24,
