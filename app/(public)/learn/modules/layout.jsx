@@ -5,12 +5,13 @@ import {
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import styles from './layout.module.css';
-import { Button, Layout, Menu, theme, Spin } from 'antd';
+import { Button, Layout, Menu, theme, Spin, Grid } from 'antd';
 import { createClient } from '@/lib/supabaseBrowser';
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+const { useBreakpoint } = Grid;
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -36,6 +37,11 @@ function getItem(label, key, icon, children) {
 }
 
 export default function ModuleLayout({ children }) {
+    const screens = useBreakpoint(); // gives: { xs, sm, md, lg, xl, xxl }
+    const isMobile = !screens.md; // true for <768px
+    // console.log("isMobile", isMobile);
+    
+
     const supabase = createClient();
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(false);
@@ -71,34 +77,6 @@ export default function ModuleLayout({ children }) {
         // staleTime: 5 * 60 * 1000, // overrides global
         // cacheTime: 10 * 60 * 1000, // overrides global
     })
-
-    // useEffect(() => {
-    //     // Fetch modules from Supabase
-    //     const fetchModules = async () => {
-    //         try {
-    //             const { data, error } = await supabase
-    //                 .from('modules')
-    //                 .select('id, title_en, order_index, module_slug')
-    //                 .eq('is_published', true)
-    //                 .order('order_index', { ascending: true });
-
-    //             if (error) {
-    //                 console.error('Error fetching modules:', error);
-    //                 setModules([]);
-    //             } else {
-    //                 setModules(data || []);
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching modules:', error);
-    //             setModules([]);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchModules();
-    // }, []);
-
     // Update selected key based on pathname
     useEffect(() => {
         if (modules.length > 0 && pathname) {
@@ -134,7 +112,6 @@ export default function ModuleLayout({ children }) {
 
     return (
         <div>
-            {/* <h1>Layout</h1> */}
             <Layout hasSider>
                 <Sider style={siderStyle}
                     className={styles.sider}
@@ -157,8 +134,6 @@ export default function ModuleLayout({ children }) {
                     </Link>
                     {loading ? (
                         <div className={styles.loadingWrap}>
-                            {/* <Spin size="small" />
-                            <span className={styles.loadingText}>Loading modules…</span> */}
                             <LoadingIcon text="Loading modules..." />
                         </div>
                     ) : (
@@ -170,6 +145,8 @@ export default function ModuleLayout({ children }) {
                             mode="inline"
                             items={items}
                             inlineIndent={12}
+                            // Added onClick to collapse menu on mobile after selection
+                            onClick={isMobile ? () => setCollapsed(true) : undefined}
                         />
                     )}
                 </Sider>
@@ -178,7 +155,8 @@ export default function ModuleLayout({ children }) {
                         <Button
                             type="text"
                             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                            onClick={() => setCollapsed(!collapsed)}
+                            onClick={() => {setCollapsed(!collapsed)
+                            }}
                             style={{
                                 fontSize: '23px',
                                 width: 64,

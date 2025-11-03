@@ -10,6 +10,7 @@ import GoToTop from "@/components/ui/GoToTop";
 import Providers from "./providers";
 import LanguageFontManager from "@/components/ui/LanguageFontManager";
 
+
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -67,6 +68,7 @@ export default function RootLayout({ children }) {
       {/* <body className={`${oldStandard.variable}`}> */}
       <body className={`${domine.variable} ${tiroBangla.variable}`}>
         <Providers>
+
           {/* Apply the correct font-family based on current language */}
           <LanguageFontManager />
           <NavigationBar />

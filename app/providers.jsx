@@ -2,6 +2,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { LanguageProvider } from "@/contexts/LanguageProvider";
+import { Toaster } from "react-hot-toast";
 
 export default function Providers({ children }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -25,6 +26,7 @@ export default function Providers({ children }) {
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         {children}
+        <Toaster position="top-center" />
       </LanguageProvider>
     </QueryClientProvider>
   )

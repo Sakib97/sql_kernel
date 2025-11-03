@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 // usePathname is used to detect route changes
 import { usePathname } from "next/navigation";
 import styles from "./RouteProgressBar.module.css";
+import { showToast } from "./CustomToast";
 
 /**
  * RouteProgressBar
@@ -15,7 +16,7 @@ export default function RouteProgressBar({
   height = 3,
   color = "#0d6efd", // Bootstrap primary
   shadow = true,
-  maxDurationMs = 10000,
+  maxDurationMs = 15000, // max duration before auto-complete , default 15s
 }) {
   const pathname = usePathname();
 
@@ -122,7 +123,11 @@ export default function RouteProgressBar({
     }, 150);
 
     // Safety timer so the bar never gets stuck forever
-    maxTimerRef.current = setTimeout(() => finishProgress(), maxDurationMs);
+    // If we hit maxDuration without route commit, show a warning toast
+    maxTimerRef.current = setTimeout(() => {
+      showToast('Loading took longer than expected, please try again !', 'exclamation');
+      finishProgress();
+    }, maxDurationMs);
   };
 
   const finishProgress = () => {
