@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import LoadingIcon from '@/components/ui/LoadingIcon'
 import { createClient } from '@/lib/supabaseBrowser'
 import { useParams } from 'next/navigation'
@@ -13,26 +13,43 @@ export default function ModulePage() {
     const params = useParams();
     const { moduleSlug } = params;
 
-    // const [module, setModule] = useState(null);
-    // const [loading, setLoading] = useState(true);
-
     const fetchModule = async () => {
+        // Single request: fetch the module and its related lessons via FK lessons.module_id -> modules.id
         const { data, error } = await supabase
             .from('modules')
-            .select('*')
+            .select(`
+                *,
+                lessons (
+                    id,
+                    slug,
+                    title_en,
+                    title_bn,
+                    summary_en,
+                    summary_bn,
+                    content_en,
+                    content_bn,
+                    order_index,
+                    estimated_minutes,
+                    is_free,
+                    is_visible,
+                    created_at,
+                    updated_at
+                )
+            `)
             .eq('module_slug', moduleSlug)
+            .order('order_index', { foreignTable: 'lessons', ascending: true })
             .single();
+
         if (error) {
-            console.error('Error fetching modules:', error)
-            throw error
+            console.error('Error fetching module with lessons:', error);
+            throw error;
         }
 
-        return data || []
+        return data || null;
     }
-    
 
     // refactor to use React Query
-    const { data: module = [] , isLoading: loading } = useQuery({
+    const { data: module = null , isLoading: loading } = useQuery({
         queryKey: ['module', moduleSlug],
         queryFn: fetchModule,
     });
@@ -48,7 +65,19 @@ export default function ModulePage() {
         <div>
             <h1>{language === 'en' ? module.title_en : module.title_bn}</h1>
             <p>{language === 'en' ? module.short_desc_en : module.short_desc_bn}</p>
-            {/* Render lessons or details */}
+            {/* Render lessons list from the single query */}
+            <h2>Lessons:</h2>
+            {module?.lessons?.length ? (
+                <ul>
+                    {module.lessons.map(lesson => (
+                        <li key={lesson.id}>
+                            {language === 'en' ? lesson.title_en : lesson.title_bn}
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No lessons available for this module.</p>
+            )}
         </div>
     )
 }
